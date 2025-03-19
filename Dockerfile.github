@@ -6,9 +6,6 @@ USER root
 # install curl and jq
 RUN apt-get update && \
     apt-get install -y curl jq && \
-    apt-get install -y sqlite3 && \
-    apt-get install -y libsqlite3-0 && \
-    apt-get install -y openssl && \
     apt-get install -y git && \
     apt-get install -y gcc && \
     apt-get install -y build-essential && \
@@ -17,6 +14,8 @@ RUN apt-get update && \
     apt-get install -y readline-common && \
     apt-get install -y libreadline-dev && \
     apt-get install -y libbz2-dev && \
+    apt-get install -y libsqlite3-dev && \
+    apt-get install -y libssl-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
