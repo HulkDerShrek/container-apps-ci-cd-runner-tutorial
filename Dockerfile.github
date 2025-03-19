@@ -18,8 +18,8 @@ RUN useradd -m runner && \
 
 WORKDIR /home/runner
 
-COPY --from=runner-base /home/runner/config.sh /home/runner/config.sh
 COPY --from=runner-base /home/runner/actions-runner /home/runner/actions-runner
+COPY --from=runner-base /home/runner/config.sh /home/runner/config.sh
 
 RUN chown -R runner:runner /home/runner/actions-runner /home/runner/config.sh
 RUN chmod +x /home/runner/config.sh
