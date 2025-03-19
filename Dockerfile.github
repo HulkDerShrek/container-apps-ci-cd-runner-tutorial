@@ -17,9 +17,11 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m runner && \
     echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+WORKDIR /home/runner
+
 COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
-RUN chmod +x ./entrypoint.sh
+RUN chmod +x /home/runner/entrypoint.sh
 
 USER runner
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/home/runner/entrypoint.sh"]
