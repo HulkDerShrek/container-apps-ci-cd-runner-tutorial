@@ -18,10 +18,10 @@ RUN useradd -m runner && \
 
 WORKDIR /home/runner
 
-COPY --from=runner-base /actions-runner /home/runner/actions-runner
+COPY --from=runner-base /home/runner /home/runner
 
-RUN chown -R runner:runner /home/runner/actions-runner
-RUN chmod +x /home/runner/actions-runner/config.sh
+RUN chown -R runner:runner /home/runner
+RUN chmod +x /home/runner/actions-runner/config.sh || true
 
 COPY github-actions-runner/entrypoint.sh /home/runner/entrypoint.sh
 RUN chmod +x /home/runner/entrypoint.sh && chown runner:runner /home/runner/entrypoint.sh
