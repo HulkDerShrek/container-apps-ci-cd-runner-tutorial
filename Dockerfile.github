@@ -24,7 +24,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN echo "runner ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN echo "Defaults !noexec,!no_new_privs" > /etc/sudoers.d/custom
 
 COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
