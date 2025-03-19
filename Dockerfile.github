@@ -19,7 +19,7 @@ RUN useradd -m runner && \
 
 WORKDIR /home/runner
 
-COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
+COPY github-actions-runner/entrypoint.sh /home/runner/entrypoint.sh
 RUN chmod +x /home/runner/entrypoint.sh
 
 USER runner
