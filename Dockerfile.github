@@ -1,30 +1,26 @@
-FROM ghcr.io/actions/actions-runner:latest
-# for latest release, see https://github.com/actions/runner/releases
+FROM ubuntu:latest AS ubuntu-base
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    curl \
+    jq \
+    git \
+    sudo \
+    unzip \
+    ca-certificates \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+FROM ghcr.io/actions/actions-runner:2.304.0
 
 USER root
 
-# install curl and jq
-RUN apt-get update && \
-    apt-get install -y curl jq && \
-    apt-get install -y git && \
-    apt-get install -y gcc && \
-    apt-get install -y build-essential && \
-    apt-get install -y zlib1g-dev && \
-    apt-get install -y libreadline8 && \
-    apt-get install -y readline-common && \
-    apt-get install -y libreadline-dev && \
-    apt-get install -y libbz2-dev && \
-    apt-get install -y libsqlite3-dev && \
-    apt-get install -y libssl-dev && \
-    apt-get install -y python3 && \
-    apt-get install -y python3-dev && \
-    apt-get install -y python3-venv && \
-    apt-get install -y python3-pip && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3 1 && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+COPY --from=ubuntu-base /usr/bin/curl /usr/bin/curl
+COPY --from=ubuntu-base /usr/bin/jq /usr/bin/jq
+COPY --from=ubuntu-base /usr/bin/git /usr/bin/git
+COPY --from=ubuntu-base /usr/bin/sudo /usr/bin/sudo
 
-RUN echo "Defaults !noexec,!no_new_privs" > /etc/sudoers.d/custom
+RUN chmod +x /usr/bin/curl /usr/bin/jq /usr/bin/git /usr/bin/sudo
 
 COPY github-actions-runner/entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
